@@ -4,34 +4,18 @@ services:
     container_name: learning-devops-postgres
     restart: unless-stopped
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
-      POSTGRES_DB: learning_devops
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d learning_devops"]
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
       interval: 10s
       timeout: 5s
       retries: 5
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  api:
-    build: .
-    container_name: learning-devops-api
-    depends_on:
-      postgres:
-        condition: service_healthy
-    ports:
-      - "3000:3000"
-    environment:
-      PORT: 3000
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/learning_devops?schema=public
-    command: npm run start:dev
-    volumes:
-      - ./:/app
-      - /app/node_modules
 
 volumes:
   postgres_data:
