@@ -1,4 +1,10 @@
-import { UserRole } from 'src/generated/prisma/enums';
+export type UserRole = 'ADMIN' | 'USER';
+
+export interface AuthUserProfile {
+  id: string;
+  email: string | null;
+  role: UserRole;
+}
 
 export interface OAuthRedirect {
   url: string;
@@ -25,5 +31,3 @@ export interface TokenPayload {
 }
 
 export type AuthenticatedUser = TokenPayload;
-
-export { UserRole as AuthUserRole };

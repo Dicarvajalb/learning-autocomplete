@@ -56,11 +56,11 @@
 | AUTH-08 | Authenticated sessions MUST use signed application JWTs delivered through secure HTTP cookies.                                                                 |
 | AUTH-09 | Authentication MUST sign tokens with RSA256                                                                                                                    |
 
-## 2.2 Quiz Discovery
+## 2.2 Quiz Search
 
 | ID      | Requirement                                                                                                  |
 | ------- | ------------------------------------------------------------------------------------------------------------ |
-| DISC-01 | The client MUST provide a search field for quiz discovery by title or name.                                  |
+| DISC-01 | The client MUST provide a search field for quiz search by title or name.                                     |
 | DISC-02 | The backend MUST expose an indexed search endpoint backed by SQL queries for partial title or name matching. |
 | DISC-03 | Search results MUST include quizzes that are publicly available to all users.                                |
 | DISC-04 | Search responses MUST include at least title, topic, and difficulty metadata.                                |

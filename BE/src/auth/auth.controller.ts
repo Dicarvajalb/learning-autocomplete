@@ -19,7 +19,7 @@ import { OAUTH_SERVICE, OAuthServiceI } from './domain/utilities';
 import appConfig from 'src/config/app.config';
 import authConfig from 'src/config/auth.config';
 import { LoginResponseDTO } from './dtos/login';
-import { AuthUserRole, TokenPayload } from './domain/entities';
+import { TokenPayload } from './domain/entities';
 import { Roles } from 'src/common/decorators/roles.decorator';
 const ACCESS_TOKEN_COOKIE = 'access_token';
 const OAUTH_STATE_COOKIE = 'oauth_state';
@@ -96,7 +96,6 @@ export class AuthController {
     this.clearAccessTokenCookie(res);
   }
 
-  @Roles([])
   @Get('google')
   async googleAuth(@Res({ passthrough: true }) res: Response): Promise<void> {
     const { url, state } = await this.oauthService.createAuthRedirectUrl();

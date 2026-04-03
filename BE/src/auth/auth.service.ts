@@ -7,9 +7,9 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Prisma } from 'src/generated/prisma/client';
 import authConfig from 'src/config/auth.config';
 import oauthConfig from 'src/config/oauth.config';
-import { UserRole } from 'src/generated/prisma/enums';
 import {
-  AuthUserRole,
+  type UserRole,
+  type AuthUserProfile,
   LoginResponseDTO,
   OAuthCallbackArgs,
   OAuthCallbackResult,
@@ -300,7 +300,7 @@ export class OAuthGoogleService implements OAuthServiceI {
       displayName: string;
     },
     prismaClient: PrismaTransactionClient = this.prisma,
-  ): Promise<{ id: string }> {
+  ): Promise<AuthUserProfile> {
     const user = await prismaClient.user.upsert({
       where: { oAuthSubject: profile.sub },
       update: {
@@ -311,11 +311,15 @@ export class OAuthGoogleService implements OAuthServiceI {
         oAuthSubject: profile.sub,
         email: profile.email,
         displayName: profile.displayName,
-        role: AuthUserRole.USER,
+        role: 'USER',
       },
-      select: { id: true },
+      select: { id: true, email: true, role: true },
     });
 
-    return user;
+    return {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    };
   }
 }
