@@ -24,10 +24,12 @@ export type OAuthCallbackResult = LoginResponseDTO;
 export interface TokenPayload {
   sub: string;
   email: string | null;
-  role: UserRole;
+  iss: string;
   jti?: string;
   iat?: number;
   exp?: number;
 }
 
-export type AuthenticatedUser = TokenPayload;
+export type AuthenticatedUser = TokenPayload & {
+  role: UserRole;
+};

@@ -10,6 +10,7 @@ import oauthConfig from 'src/config/oauth.config';
 import {
   type UserRole,
   type AuthUserProfile,
+  type AuthenticatedUser,
   LoginResponseDTO,
   OAuthCallbackArgs,
   OAuthCallbackResult,
@@ -65,7 +66,7 @@ export class AuthService {
     const accessTokenId = randomUUID();
 
     const accessToken = await this.jwtService.signAsync(
-      this.buildTokenPayload(user.id, user.email, user.role, accessTokenId),
+      this.buildTokenPayload(user.id, user.email, accessTokenId),
     );
 
     await prismaClient.authSession.create({
@@ -81,10 +82,13 @@ export class AuthService {
     };
   }
 
-  public async validateApplicationToken(token: string): Promise<TokenPayload> {
+  public async validateApplicationToken(
+    token: string,
+  ): Promise<AuthenticatedUser> {
     const payload = await this.jwtService
       .verifyAsync<TokenPayload>(token, this.buildVerifyOptions())
-      .catch(() => {
+      .catch((m) => {
+        console.log('🚀 ~ AuthService ~ validateApplicationToken ~ m:', m);
         throw new UnauthorizedException('Invalid authentication token');
       });
 
@@ -108,7 +112,19 @@ export class AuthService {
       );
     }
 
-    return payload;
+    const user = await this.prisma.user.findUnique({
+      where: { id: payload.sub },
+      select: { role: true },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid authentication token');
+    }
+
+    return {
+      ...payload,
+      role: user.role,
+    };
   }
 
   public async logout(userId: string): Promise<void> {
@@ -126,32 +142,19 @@ export class AuthService {
   private buildTokenPayload(
     sub: string,
     email: string | null,
-    role: UserRole,
     jti: string,
   ): TokenPayload {
     return {
       sub,
       email,
-      role,
+      iss: this.authConfiguration.jwtIssuer,
       jti,
-    };
-  }
-
-  private buildSignOptions(jti: string, durationMs: number) {
-    return {
-      algorithm: 'RS256' as const,
-      audience: this.authConfiguration.jwtAudience,
-      expiresIn: Math.max(1, Math.floor(durationMs / 1000)),
-      issuer: this.authConfiguration.jwtIssuer,
-      jwtid: jti,
-      privateKey: this.authConfiguration.jwtPrivateKey || undefined,
     };
   }
 
   private buildVerifyOptions() {
     return {
       algorithms: ['RS256' as const],
-      audience: this.authConfiguration.jwtAudience,
       issuer: this.authConfiguration.jwtIssuer,
       publicKey: this.authConfiguration.jwtPublicKey || undefined,
     };

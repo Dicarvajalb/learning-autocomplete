@@ -198,7 +198,7 @@ export type AnswerGroupByOutputType = {
   sessionId: string
   participantId: string
   questionId: string
-  selectedOrder: runtime.JsonValue
+  selectedOrder: string[]
   isCorrect: boolean
   scoreAwarded: runtime.Decimal
   answeredAt: Date
@@ -232,7 +232,7 @@ export type AnswerWhereInput = {
   sessionId?: Prisma.StringFilter<"Answer"> | string
   participantId?: Prisma.StringFilter<"Answer"> | string
   questionId?: Prisma.StringFilter<"Answer"> | string
-  selectedOrder?: Prisma.JsonFilter<"Answer">
+  selectedOrder?: Prisma.StringNullableListFilter<"Answer">
   isCorrect?: Prisma.BoolFilter<"Answer"> | boolean
   scoreAwarded?: Prisma.DecimalFilter<"Answer"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFilter<"Answer"> | Date | string
@@ -264,7 +264,7 @@ export type AnswerWhereUniqueInput = Prisma.AtLeast<{
   sessionId?: Prisma.StringFilter<"Answer"> | string
   participantId?: Prisma.StringFilter<"Answer"> | string
   questionId?: Prisma.StringFilter<"Answer"> | string
-  selectedOrder?: Prisma.JsonFilter<"Answer">
+  selectedOrder?: Prisma.StringNullableListFilter<"Answer">
   isCorrect?: Prisma.BoolFilter<"Answer"> | boolean
   scoreAwarded?: Prisma.DecimalFilter<"Answer"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFilter<"Answer"> | Date | string
@@ -297,7 +297,7 @@ export type AnswerScalarWhereWithAggregatesInput = {
   sessionId?: Prisma.StringWithAggregatesFilter<"Answer"> | string
   participantId?: Prisma.StringWithAggregatesFilter<"Answer"> | string
   questionId?: Prisma.StringWithAggregatesFilter<"Answer"> | string
-  selectedOrder?: Prisma.JsonWithAggregatesFilter<"Answer">
+  selectedOrder?: Prisma.StringNullableListFilter<"Answer">
   isCorrect?: Prisma.BoolWithAggregatesFilter<"Answer"> | boolean
   scoreAwarded?: Prisma.DecimalWithAggregatesFilter<"Answer"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeWithAggregatesFilter<"Answer"> | Date | string
@@ -305,7 +305,7 @@ export type AnswerScalarWhereWithAggregatesInput = {
 
 export type AnswerCreateInput = {
   id?: string
-  selectedOrder: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerCreateselectedOrderInput | string[]
   isCorrect: boolean
   scoreAwarded: runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Date | string
@@ -319,7 +319,7 @@ export type AnswerUncheckedCreateInput = {
   sessionId: string
   participantId: string
   questionId: string
-  selectedOrder: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerCreateselectedOrderInput | string[]
   isCorrect: boolean
   scoreAwarded: runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Date | string
@@ -327,7 +327,7 @@ export type AnswerUncheckedCreateInput = {
 
 export type AnswerUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  selectedOrder?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerUpdateselectedOrderInput | string[]
   isCorrect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   scoreAwarded?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -341,7 +341,7 @@ export type AnswerUncheckedUpdateInput = {
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   participantId?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
-  selectedOrder?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerUpdateselectedOrderInput | string[]
   isCorrect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   scoreAwarded?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -352,7 +352,7 @@ export type AnswerCreateManyInput = {
   sessionId: string
   participantId: string
   questionId: string
-  selectedOrder: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerCreateselectedOrderInput | string[]
   isCorrect: boolean
   scoreAwarded: runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Date | string
@@ -360,7 +360,7 @@ export type AnswerCreateManyInput = {
 
 export type AnswerUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  selectedOrder?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerUpdateselectedOrderInput | string[]
   isCorrect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   scoreAwarded?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -371,7 +371,7 @@ export type AnswerUncheckedUpdateManyInput = {
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   participantId?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
-  selectedOrder?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerUpdateselectedOrderInput | string[]
   isCorrect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   scoreAwarded?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -385,6 +385,14 @@ export type AnswerListRelationFilter = {
 
 export type AnswerOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type AnswerSessionIdParticipantIdQuestionIdCompoundUniqueInput = {
@@ -558,6 +566,19 @@ export type AnswerUncheckedUpdateManyWithoutParticipantNestedInput = {
   deleteMany?: Prisma.AnswerScalarWhereInput | Prisma.AnswerScalarWhereInput[]
 }
 
+export type AnswerCreateselectedOrderInput = {
+  set: string[]
+}
+
+export type AnswerUpdateselectedOrderInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type DecimalFieldUpdateOperationsInput = {
   set?: runtime.Decimal | runtime.DecimalJsLike | number | string
   increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -568,7 +589,7 @@ export type DecimalFieldUpdateOperationsInput = {
 
 export type AnswerCreateWithoutQuestionInput = {
   id?: string
-  selectedOrder: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerCreateselectedOrderInput | string[]
   isCorrect: boolean
   scoreAwarded: runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Date | string
@@ -580,7 +601,7 @@ export type AnswerUncheckedCreateWithoutQuestionInput = {
   id?: string
   sessionId: string
   participantId: string
-  selectedOrder: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerCreateselectedOrderInput | string[]
   isCorrect: boolean
   scoreAwarded: runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Date | string
@@ -620,7 +641,7 @@ export type AnswerScalarWhereInput = {
   sessionId?: Prisma.StringFilter<"Answer"> | string
   participantId?: Prisma.StringFilter<"Answer"> | string
   questionId?: Prisma.StringFilter<"Answer"> | string
-  selectedOrder?: Prisma.JsonFilter<"Answer">
+  selectedOrder?: Prisma.StringNullableListFilter<"Answer">
   isCorrect?: Prisma.BoolFilter<"Answer"> | boolean
   scoreAwarded?: Prisma.DecimalFilter<"Answer"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFilter<"Answer"> | Date | string
@@ -628,7 +649,7 @@ export type AnswerScalarWhereInput = {
 
 export type AnswerCreateWithoutSessionInput = {
   id?: string
-  selectedOrder: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerCreateselectedOrderInput | string[]
   isCorrect: boolean
   scoreAwarded: runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Date | string
@@ -640,7 +661,7 @@ export type AnswerUncheckedCreateWithoutSessionInput = {
   id?: string
   participantId: string
   questionId: string
-  selectedOrder: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerCreateselectedOrderInput | string[]
   isCorrect: boolean
   scoreAwarded: runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Date | string
@@ -674,7 +695,7 @@ export type AnswerUpdateManyWithWhereWithoutSessionInput = {
 
 export type AnswerCreateWithoutParticipantInput = {
   id?: string
-  selectedOrder: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerCreateselectedOrderInput | string[]
   isCorrect: boolean
   scoreAwarded: runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Date | string
@@ -686,7 +707,7 @@ export type AnswerUncheckedCreateWithoutParticipantInput = {
   id?: string
   sessionId: string
   questionId: string
-  selectedOrder: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerCreateselectedOrderInput | string[]
   isCorrect: boolean
   scoreAwarded: runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Date | string
@@ -722,7 +743,7 @@ export type AnswerCreateManyQuestionInput = {
   id?: string
   sessionId: string
   participantId: string
-  selectedOrder: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerCreateselectedOrderInput | string[]
   isCorrect: boolean
   scoreAwarded: runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Date | string
@@ -730,7 +751,7 @@ export type AnswerCreateManyQuestionInput = {
 
 export type AnswerUpdateWithoutQuestionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  selectedOrder?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerUpdateselectedOrderInput | string[]
   isCorrect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   scoreAwarded?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -742,7 +763,7 @@ export type AnswerUncheckedUpdateWithoutQuestionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   participantId?: Prisma.StringFieldUpdateOperationsInput | string
-  selectedOrder?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerUpdateselectedOrderInput | string[]
   isCorrect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   scoreAwarded?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -752,7 +773,7 @@ export type AnswerUncheckedUpdateManyWithoutQuestionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   participantId?: Prisma.StringFieldUpdateOperationsInput | string
-  selectedOrder?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerUpdateselectedOrderInput | string[]
   isCorrect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   scoreAwarded?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -762,7 +783,7 @@ export type AnswerCreateManySessionInput = {
   id?: string
   participantId: string
   questionId: string
-  selectedOrder: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerCreateselectedOrderInput | string[]
   isCorrect: boolean
   scoreAwarded: runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Date | string
@@ -770,7 +791,7 @@ export type AnswerCreateManySessionInput = {
 
 export type AnswerUpdateWithoutSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  selectedOrder?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerUpdateselectedOrderInput | string[]
   isCorrect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   scoreAwarded?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -782,7 +803,7 @@ export type AnswerUncheckedUpdateWithoutSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   participantId?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
-  selectedOrder?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerUpdateselectedOrderInput | string[]
   isCorrect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   scoreAwarded?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -792,7 +813,7 @@ export type AnswerUncheckedUpdateManyWithoutSessionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   participantId?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
-  selectedOrder?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerUpdateselectedOrderInput | string[]
   isCorrect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   scoreAwarded?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -802,7 +823,7 @@ export type AnswerCreateManyParticipantInput = {
   id?: string
   sessionId: string
   questionId: string
-  selectedOrder: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerCreateselectedOrderInput | string[]
   isCorrect: boolean
   scoreAwarded: runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Date | string
@@ -810,7 +831,7 @@ export type AnswerCreateManyParticipantInput = {
 
 export type AnswerUpdateWithoutParticipantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  selectedOrder?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerUpdateselectedOrderInput | string[]
   isCorrect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   scoreAwarded?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -822,7 +843,7 @@ export type AnswerUncheckedUpdateWithoutParticipantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
-  selectedOrder?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerUpdateselectedOrderInput | string[]
   isCorrect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   scoreAwarded?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -832,7 +853,7 @@ export type AnswerUncheckedUpdateManyWithoutParticipantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sessionId?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
-  selectedOrder?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  selectedOrder?: Prisma.AnswerUpdateselectedOrderInput | string[]
   isCorrect?: Prisma.BoolFieldUpdateOperationsInput | boolean
   scoreAwarded?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   answeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -922,7 +943,7 @@ export type $AnswerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     sessionId: string
     participantId: string
     questionId: string
-    selectedOrder: runtime.JsonValue
+    selectedOrder: string[]
     isCorrect: boolean
     scoreAwarded: runtime.Decimal
     answeredAt: Date
@@ -1356,7 +1377,7 @@ export interface AnswerFieldRefs {
   readonly sessionId: Prisma.FieldRef<"Answer", 'String'>
   readonly participantId: Prisma.FieldRef<"Answer", 'String'>
   readonly questionId: Prisma.FieldRef<"Answer", 'String'>
-  readonly selectedOrder: Prisma.FieldRef<"Answer", 'Json'>
+  readonly selectedOrder: Prisma.FieldRef<"Answer", 'String[]'>
   readonly isCorrect: Prisma.FieldRef<"Answer", 'Boolean'>
   readonly scoreAwarded: Prisma.FieldRef<"Answer", 'Decimal'>
   readonly answeredAt: Prisma.FieldRef<"Answer", 'DateTime'>

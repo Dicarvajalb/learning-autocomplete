@@ -9,8 +9,8 @@ datasource db {
 }
 
 enum UserRole {
-  USER  @map("user")
-  ADMIN @map("adminaa")
+  USER
+  ADMIN
 }
 
 enum QuizDifficulty {
@@ -21,6 +21,12 @@ enum QuizDifficulty {
 
 enum QuestionType {
   AUTOCOMPLETE_ORDER
+}
+
+enum QuestionOptionLabel {
+  HIDE
+  SHOW
+  EXTRA
 }
 
 enum QuizSessionMode {
@@ -86,7 +92,6 @@ model AuthSession {
 model Quiz {
   id          String         @id @default(cuid())
   title       String
-  name        String         @unique
   topic       String
   difficulty  QuizDifficulty
   description String?
@@ -97,36 +102,32 @@ model Quiz {
   auditEvents AuditEvent[]
 
   @@index([title])
-  @@index([name])
   @@index([topic, difficulty])
 }
 
 model Question {
-  id             String           @id @default(cuid())
-  quizId         String
-  prompt         String
-  type           QuestionType     @default(AUTOCOMPLETE_ORDER)
-  questionOrder  Int
-  correctOrder   Json
-  partialScoring Boolean          @default(false)
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  quiz           Quiz             @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  options        QuestionOption[]
-  answers        Answer[]
+  id          String           @id @default(cuid())
+  quizId      String
+  description String
+  type        QuestionType     @default(AUTOCOMPLETE_ORDER)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  quiz        Quiz             @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  options     QuestionOption[]
+  answers     Answer[]
 
-  @@unique([quizId, questionOrder])
   @@index([quizId])
 }
 
 model QuestionOption {
-  id          String   @id @default(cuid())
+  id          String              @id @default(cuid())
   questionId  String
-  label       String
+  word        String
+  label       QuestionOptionLabel
   optionOrder Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  question    Question            @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
   @@unique([questionId, optionOrder])
   @@index([questionId])
@@ -178,13 +179,13 @@ model Answer {
   sessionId     String
   participantId String
   questionId    String
-  selectedOrder Json
+  selectedOrder String[]
   isCorrect     Boolean
   scoreAwarded  Decimal            @db.Decimal(4, 1)
   answeredAt    DateTime           @default(now())
   session       QuizSession        @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   participant   SessionParticipant @relation(fields: [participantId], references: [id], onDelete: Cascade)
-  question      Question           @relation(fields: [questionId], references: [id], onDelete: Restrict)
+  question      Question           @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
   @@unique([sessionId, participantId, questionId])
   @@index([sessionId])

@@ -37,7 +37,8 @@ export type QuestionOptionSumAggregateOutputType = {
 export type QuestionOptionMinAggregateOutputType = {
   id: string | null
   questionId: string | null
-  label: string | null
+  word: string | null
+  label: $Enums.QuestionOptionLabel | null
   optionOrder: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -46,7 +47,8 @@ export type QuestionOptionMinAggregateOutputType = {
 export type QuestionOptionMaxAggregateOutputType = {
   id: string | null
   questionId: string | null
-  label: string | null
+  word: string | null
+  label: $Enums.QuestionOptionLabel | null
   optionOrder: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -55,6 +57,7 @@ export type QuestionOptionMaxAggregateOutputType = {
 export type QuestionOptionCountAggregateOutputType = {
   id: number
   questionId: number
+  word: number
   label: number
   optionOrder: number
   createdAt: number
@@ -74,6 +77,7 @@ export type QuestionOptionSumAggregateInputType = {
 export type QuestionOptionMinAggregateInputType = {
   id?: true
   questionId?: true
+  word?: true
   label?: true
   optionOrder?: true
   createdAt?: true
@@ -83,6 +87,7 @@ export type QuestionOptionMinAggregateInputType = {
 export type QuestionOptionMaxAggregateInputType = {
   id?: true
   questionId?: true
+  word?: true
   label?: true
   optionOrder?: true
   createdAt?: true
@@ -92,6 +97,7 @@ export type QuestionOptionMaxAggregateInputType = {
 export type QuestionOptionCountAggregateInputType = {
   id?: true
   questionId?: true
+  word?: true
   label?: true
   optionOrder?: true
   createdAt?: true
@@ -188,7 +194,8 @@ export type QuestionOptionGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 export type QuestionOptionGroupByOutputType = {
   id: string
   questionId: string
-  label: string
+  word: string
+  label: $Enums.QuestionOptionLabel
   optionOrder: number
   createdAt: Date
   updatedAt: Date
@@ -220,7 +227,8 @@ export type QuestionOptionWhereInput = {
   NOT?: Prisma.QuestionOptionWhereInput | Prisma.QuestionOptionWhereInput[]
   id?: Prisma.StringFilter<"QuestionOption"> | string
   questionId?: Prisma.StringFilter<"QuestionOption"> | string
-  label?: Prisma.StringFilter<"QuestionOption"> | string
+  word?: Prisma.StringFilter<"QuestionOption"> | string
+  label?: Prisma.EnumQuestionOptionLabelFilter<"QuestionOption"> | $Enums.QuestionOptionLabel
   optionOrder?: Prisma.IntFilter<"QuestionOption"> | number
   createdAt?: Prisma.DateTimeFilter<"QuestionOption"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"QuestionOption"> | Date | string
@@ -230,6 +238,7 @@ export type QuestionOptionWhereInput = {
 export type QuestionOptionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
+  word?: Prisma.SortOrder
   label?: Prisma.SortOrder
   optionOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -244,7 +253,8 @@ export type QuestionOptionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.QuestionOptionWhereInput[]
   NOT?: Prisma.QuestionOptionWhereInput | Prisma.QuestionOptionWhereInput[]
   questionId?: Prisma.StringFilter<"QuestionOption"> | string
-  label?: Prisma.StringFilter<"QuestionOption"> | string
+  word?: Prisma.StringFilter<"QuestionOption"> | string
+  label?: Prisma.EnumQuestionOptionLabelFilter<"QuestionOption"> | $Enums.QuestionOptionLabel
   optionOrder?: Prisma.IntFilter<"QuestionOption"> | number
   createdAt?: Prisma.DateTimeFilter<"QuestionOption"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"QuestionOption"> | Date | string
@@ -254,6 +264,7 @@ export type QuestionOptionWhereUniqueInput = Prisma.AtLeast<{
 export type QuestionOptionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
+  word?: Prisma.SortOrder
   label?: Prisma.SortOrder
   optionOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -271,7 +282,8 @@ export type QuestionOptionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.QuestionOptionScalarWhereWithAggregatesInput | Prisma.QuestionOptionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"QuestionOption"> | string
   questionId?: Prisma.StringWithAggregatesFilter<"QuestionOption"> | string
-  label?: Prisma.StringWithAggregatesFilter<"QuestionOption"> | string
+  word?: Prisma.StringWithAggregatesFilter<"QuestionOption"> | string
+  label?: Prisma.EnumQuestionOptionLabelWithAggregatesFilter<"QuestionOption"> | $Enums.QuestionOptionLabel
   optionOrder?: Prisma.IntWithAggregatesFilter<"QuestionOption"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"QuestionOption"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"QuestionOption"> | Date | string
@@ -279,7 +291,8 @@ export type QuestionOptionScalarWhereWithAggregatesInput = {
 
 export type QuestionOptionCreateInput = {
   id?: string
-  label: string
+  word: string
+  label: $Enums.QuestionOptionLabel
   optionOrder: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -289,7 +302,8 @@ export type QuestionOptionCreateInput = {
 export type QuestionOptionUncheckedCreateInput = {
   id?: string
   questionId: string
-  label: string
+  word: string
+  label: $Enums.QuestionOptionLabel
   optionOrder: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -297,7 +311,8 @@ export type QuestionOptionUncheckedCreateInput = {
 
 export type QuestionOptionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  word?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.EnumQuestionOptionLabelFieldUpdateOperationsInput | $Enums.QuestionOptionLabel
   optionOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -307,7 +322,8 @@ export type QuestionOptionUpdateInput = {
 export type QuestionOptionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  word?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.EnumQuestionOptionLabelFieldUpdateOperationsInput | $Enums.QuestionOptionLabel
   optionOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -316,7 +332,8 @@ export type QuestionOptionUncheckedUpdateInput = {
 export type QuestionOptionCreateManyInput = {
   id?: string
   questionId: string
-  label: string
+  word: string
+  label: $Enums.QuestionOptionLabel
   optionOrder: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -324,7 +341,8 @@ export type QuestionOptionCreateManyInput = {
 
 export type QuestionOptionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  word?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.EnumQuestionOptionLabelFieldUpdateOperationsInput | $Enums.QuestionOptionLabel
   optionOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -333,7 +351,8 @@ export type QuestionOptionUpdateManyMutationInput = {
 export type QuestionOptionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   questionId?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  word?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.EnumQuestionOptionLabelFieldUpdateOperationsInput | $Enums.QuestionOptionLabel
   optionOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -357,6 +376,7 @@ export type QuestionOptionQuestionIdOptionOrderCompoundUniqueInput = {
 export type QuestionOptionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
+  word?: Prisma.SortOrder
   label?: Prisma.SortOrder
   optionOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -370,6 +390,7 @@ export type QuestionOptionAvgOrderByAggregateInput = {
 export type QuestionOptionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
+  word?: Prisma.SortOrder
   label?: Prisma.SortOrder
   optionOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -379,6 +400,7 @@ export type QuestionOptionMaxOrderByAggregateInput = {
 export type QuestionOptionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
+  word?: Prisma.SortOrder
   label?: Prisma.SortOrder
   optionOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -431,9 +453,22 @@ export type QuestionOptionUncheckedUpdateManyWithoutQuestionNestedInput = {
   deleteMany?: Prisma.QuestionOptionScalarWhereInput | Prisma.QuestionOptionScalarWhereInput[]
 }
 
+export type EnumQuestionOptionLabelFieldUpdateOperationsInput = {
+  set?: $Enums.QuestionOptionLabel
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type QuestionOptionCreateWithoutQuestionInput = {
   id?: string
-  label: string
+  word: string
+  label: $Enums.QuestionOptionLabel
   optionOrder: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -441,7 +476,8 @@ export type QuestionOptionCreateWithoutQuestionInput = {
 
 export type QuestionOptionUncheckedCreateWithoutQuestionInput = {
   id?: string
-  label: string
+  word: string
+  label: $Enums.QuestionOptionLabel
   optionOrder: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -479,7 +515,8 @@ export type QuestionOptionScalarWhereInput = {
   NOT?: Prisma.QuestionOptionScalarWhereInput | Prisma.QuestionOptionScalarWhereInput[]
   id?: Prisma.StringFilter<"QuestionOption"> | string
   questionId?: Prisma.StringFilter<"QuestionOption"> | string
-  label?: Prisma.StringFilter<"QuestionOption"> | string
+  word?: Prisma.StringFilter<"QuestionOption"> | string
+  label?: Prisma.EnumQuestionOptionLabelFilter<"QuestionOption"> | $Enums.QuestionOptionLabel
   optionOrder?: Prisma.IntFilter<"QuestionOption"> | number
   createdAt?: Prisma.DateTimeFilter<"QuestionOption"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"QuestionOption"> | Date | string
@@ -487,7 +524,8 @@ export type QuestionOptionScalarWhereInput = {
 
 export type QuestionOptionCreateManyQuestionInput = {
   id?: string
-  label: string
+  word: string
+  label: $Enums.QuestionOptionLabel
   optionOrder: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -495,7 +533,8 @@ export type QuestionOptionCreateManyQuestionInput = {
 
 export type QuestionOptionUpdateWithoutQuestionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  word?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.EnumQuestionOptionLabelFieldUpdateOperationsInput | $Enums.QuestionOptionLabel
   optionOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -503,7 +542,8 @@ export type QuestionOptionUpdateWithoutQuestionInput = {
 
 export type QuestionOptionUncheckedUpdateWithoutQuestionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  word?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.EnumQuestionOptionLabelFieldUpdateOperationsInput | $Enums.QuestionOptionLabel
   optionOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -511,7 +551,8 @@ export type QuestionOptionUncheckedUpdateWithoutQuestionInput = {
 
 export type QuestionOptionUncheckedUpdateManyWithoutQuestionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  label?: Prisma.StringFieldUpdateOperationsInput | string
+  word?: Prisma.StringFieldUpdateOperationsInput | string
+  label?: Prisma.EnumQuestionOptionLabelFieldUpdateOperationsInput | $Enums.QuestionOptionLabel
   optionOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -522,6 +563,7 @@ export type QuestionOptionUncheckedUpdateManyWithoutQuestionInput = {
 export type QuestionOptionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   questionId?: boolean
+  word?: boolean
   label?: boolean
   optionOrder?: boolean
   createdAt?: boolean
@@ -532,6 +574,7 @@ export type QuestionOptionSelect<ExtArgs extends runtime.Types.Extensions.Intern
 export type QuestionOptionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   questionId?: boolean
+  word?: boolean
   label?: boolean
   optionOrder?: boolean
   createdAt?: boolean
@@ -542,6 +585,7 @@ export type QuestionOptionSelectCreateManyAndReturn<ExtArgs extends runtime.Type
 export type QuestionOptionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   questionId?: boolean
+  word?: boolean
   label?: boolean
   optionOrder?: boolean
   createdAt?: boolean
@@ -552,13 +596,14 @@ export type QuestionOptionSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
 export type QuestionOptionSelectScalar = {
   id?: boolean
   questionId?: boolean
+  word?: boolean
   label?: boolean
   optionOrder?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type QuestionOptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "questionId" | "label" | "optionOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["questionOption"]>
+export type QuestionOptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "questionId" | "word" | "label" | "optionOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["questionOption"]>
 export type QuestionOptionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   question?: boolean | Prisma.QuestionDefaultArgs<ExtArgs>
 }
@@ -577,7 +622,8 @@ export type $QuestionOptionPayload<ExtArgs extends runtime.Types.Extensions.Inte
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     questionId: string
-    label: string
+    word: string
+    label: $Enums.QuestionOptionLabel
     optionOrder: number
     createdAt: Date
     updatedAt: Date
@@ -1007,7 +1053,8 @@ export interface Prisma__QuestionOptionClient<T, Null = never, ExtArgs extends r
 export interface QuestionOptionFieldRefs {
   readonly id: Prisma.FieldRef<"QuestionOption", 'String'>
   readonly questionId: Prisma.FieldRef<"QuestionOption", 'String'>
-  readonly label: Prisma.FieldRef<"QuestionOption", 'String'>
+  readonly word: Prisma.FieldRef<"QuestionOption", 'String'>
+  readonly label: Prisma.FieldRef<"QuestionOption", 'QuestionOptionLabel'>
   readonly optionOrder: Prisma.FieldRef<"QuestionOption", 'Int'>
   readonly createdAt: Prisma.FieldRef<"QuestionOption", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"QuestionOption", 'DateTime'>

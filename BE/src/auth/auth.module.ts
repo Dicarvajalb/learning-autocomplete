@@ -8,11 +8,13 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import appConfig from 'src/config/app.config';
 import authConfig from 'src/config/auth.config';
+import frontendConfig from 'src/config/frontend.config';
 import oauthConfig from 'src/config/oauth.config';
 
 @Module({
   imports: [
     ConfigModule.forFeature(appConfig),
+    ConfigModule.forFeature(frontendConfig),
     ConfigModule.forFeature(oauthConfig),
     ConfigModule.forFeature(authConfig),
 

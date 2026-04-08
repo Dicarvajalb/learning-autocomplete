@@ -17,14 +17,16 @@ export class JwtAuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const roles = this.reflector.get(Roles, context.getHandler());
+    const roles = this.reflector.getAllAndOverride(Roles, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
 
     if (!roles || roles.length == 0) {
-      console.log('🚀 ~ JwtAuthGuard ~ canActivate ~ roles:', roles);
-
       return true;
     }
     const token = request.cookies?.access_token;
+    console.log('🚀 ~ JwtAuthGuard ~ canActivate ~ token:', token);
 
     if (!token) {
       throw new UnauthorizedException('Missing authentication cookie');
@@ -34,8 +36,6 @@ export class JwtAuthGuard implements CanActivate {
       await this.authService.validateApplicationToken(token);
     request.user = authenticatedUser;
 
-    console.log('🚀 ~ JwtAuthGuard ~ canActivate ~ roles:', roles);
-
-    return roles.some((r) => r == authenticatedUser.role);
+    return roles.some((r) => r === authenticatedUser.role);
   }
 }

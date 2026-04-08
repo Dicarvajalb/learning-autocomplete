@@ -1,34 +1,41 @@
 import {
-  Body,
   Controller,
   Get,
   Inject,
   HttpCode,
   HttpStatus,
   Query,
-  Patch,
   Post,
   Req,
   Res,
-  UsePipes,
   UnauthorizedException,
 } from '@nestjs/common';
 import type { ConfigType } from '@nestjs/config';
 import type { Request, Response } from 'express';
+import {
+  ApiCookieAuth,
+  ApiFoundResponse,
+  ApiNoContentResponse,
+  ApiOkResponse,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { OAUTH_SERVICE, OAuthServiceI } from './domain/utilities';
 import appConfig from 'src/config/app.config';
 import authConfig from 'src/config/auth.config';
-import { LoginResponseDTO } from './dtos/login';
-import { TokenPayload } from './domain/entities';
+import frontendConfig from 'src/config/frontend.config';
+import { AuthenticatedUser } from './domain/entities';
 import { Roles } from 'src/common/decorators/roles.decorator';
+import { AuthMeResponseModel } from 'src/swagger/swagger.models';
 const ACCESS_TOKEN_COOKIE = 'access_token';
 const OAUTH_STATE_COOKIE = 'oauth_state';
 
-type RequestWithUser = Request & { user: TokenPayload };
+type RequestWithUser = Request & { user: AuthenticatedUser };
 type RequestWithCookies = Request & {
   cookies?: Record<string, string | undefined>;
 };
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -38,6 +45,8 @@ export class AuthController {
     private readonly appConfiguration: ConfigType<typeof appConfig>,
     @Inject(authConfig.KEY)
     private readonly authConfiguration: ConfigType<typeof authConfig>,
+    @Inject(frontendConfig.KEY)
+    private readonly frontendConfiguration: ConfigType<typeof frontendConfig>,
   ) {}
 
   private setAccessTokenCookie(
@@ -88,6 +97,8 @@ export class AuthController {
 
   @Post('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiCookieAuth('access_token')
+  @ApiNoContentResponse({ description: 'Logged out' })
   async logout(
     @Req() req: RequestWithUser,
     @Res({ passthrough: true }) res: Response,
@@ -96,7 +107,20 @@ export class AuthController {
     this.clearAccessTokenCookie(res);
   }
 
+  @Get('me')
+  @ApiCookieAuth('access_token')
+  @ApiOkResponse({ type: AuthMeResponseModel })
+  @Roles(['USER', 'ADMIN'])
+  async me(@Req() req: RequestWithUser): Promise<AuthMeResponseModel> {
+    return {
+      id: req.user.sub,
+      email: req.user.email ?? null,
+      role: req.user.role,
+    };
+  }
+
   @Get('google')
+  @ApiFoundResponse({ description: 'Redirects to Google login' })
   async googleAuth(@Res({ passthrough: true }) res: Response): Promise<void> {
     const { url, state } = await this.oauthService.createAuthRedirectUrl();
     console.log('🚀 ~ AuthController ~ googleAuth ~ url:', url);
@@ -105,12 +129,15 @@ export class AuthController {
   }
 
   @Get('google/callback')
+  @ApiQuery({ name: 'code', required: true, type: String })
+  @ApiQuery({ name: 'state', required: true, type: String })
+  @ApiFoundResponse({ description: 'Redirects to the frontend admin console' })
   async googleCallback(
     @Req() req: RequestWithCookies,
     @Res({ passthrough: true }) res: Response,
     @Query('code') code?: string,
     @Query('state') state?: string,
-  ): Promise<LoginResponseDTO> {
+  ): Promise<void> {
     if (!code || !state) {
       throw new UnauthorizedException('Missing code or state');
     }
@@ -139,8 +166,10 @@ export class AuthController {
       this.authConfiguration.jwtDurationMs,
     );
 
-    return {
-      access_token: tokens.access_token,
-    };
+    const frontendAdminUrl = new URL(
+      '/admin',
+      this.frontendConfiguration.frontendUrl,
+    ).toString();
+    res.redirect(frontendAdminUrl);
   }
 }

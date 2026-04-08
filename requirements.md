@@ -27,7 +27,11 @@
 | NestJS framework core APIs                       | `@nestjs/common`           |
 | NestJS application runtime                       | `@nestjs/core`             |
 | HTTP platform adapter                            | `@nestjs/platform-express` |
+| NestJS WebSocket gateway support                 | `@nestjs/websockets`       |
+| Socket.IO platform adapter                       | `@nestjs/platform-socket.io`|
+| Socket.IO realtime transport                     | `socket.io`                |
 | Environment and configuration management         | `@nestjs/config`           |
+| OpenAPI document generation and UI               | `@nestjs/swagger`          |
 | JSON Schema-based request validation             | `ajv`                      |
 | JSON Schema formats support                      | `ajv-formats`              |
 | Shared type contracts and interfaces             | TypeScript interfaces      |
@@ -39,6 +43,23 @@
 | PostgreSQL driver for Prisma                     | `pg`                       |
 | Prisma schema and migration tooling              | `prisma`                   |
 | Prisma database client                           | `@prisma/client`           |
+
+## Approved Frontend Dependencies
+
+| Purpose                           | Package                      |
+| --------------------------------- | ---------------------------- |
+| Shared application language       | `typescript`                 |
+| React UI runtime                  | `react`                      |
+| React DOM runtime                 | `react-dom`                  |
+| React Native mobile runtime       | `react-native`               |
+| React Native web runtime          | `react-native-web`           |
+| React Native Babel preset         | `@react-native/babel-preset` |
+| Vite web build tooling            | `vite`                       |
+| Vite React plugin                 | `@vitejs/plugin-react`       |
+| Type definitions for React        | `@types/react`               |
+| Type definitions for React DOM    | `@types/react-dom`           |
+| Type definitions for React Native | `@types/react-native`        |
+| Socket.IO realtime transport      | `socket.io-client`           |
 
 # Technical Requirements
 
@@ -56,7 +77,9 @@
 | AUTH-08 | Authenticated sessions MUST use signed application JWTs delivered through secure HTTP cookies.                                                                 |
 | AUTH-09 | Authentication MUST sign tokens with RSA256                                                                                                                    |
 
-## 2.2 Quiz Search
+## 2.2 Quiz Discovery And Management
+
+### 2.2.1 Public Quiz Search
 
 | ID      | Requirement                                                                                                  |
 | ------- | ------------------------------------------------------------------------------------------------------------ |
@@ -65,6 +88,19 @@
 | DISC-03 | Search results MUST include quizzes that are publicly available to all users.                                |
 | DISC-04 | Search responses MUST include at least title, topic, and difficulty metadata.                                |
 | DISC-05 | Search endpoints SHOULD support pagination to keep query performance stable as the quiz catalog grows.       |
+
+### 2.2.2 Admin Quiz CRUD
+
+| ID      | Requirement                                                                                               |
+| ------- | --------------------------------------------------------------------------------------------------------- |
+| QADM-01 | The backend MUST expose protected CRUD endpoints for quizzes and questions.                               |
+| QADM-02 | Administrative quiz management MUST support create, edit, save, and delete workflows for quizzes.         |
+| QADM-03 | Administrative question management MUST support create, edit, save, and delete workflows for questions.   |
+| QADM-04 | Quiz data MUST be validated server-side before persistence.                                               |
+| QADM-05 | Question data MUST be validated server-side before persistence.                                           |
+| QADM-06 | Administrative mutations MUST be auditable at least at the application level.                             |
+| QADM-07 | Saved quizzes MUST be treated as publicly available published content once persisted.                     |
+| QADM-08 | Quiz management SHOULD preserve historical quiz and question data where possible when content is updated. |
 
 ## 2.3 Quiz Sessions
 
@@ -78,16 +114,19 @@
 | SESS-06 | Active gameplay state MAY be cached in memory, but the authoritative active session record MUST exist in SQL while the session is active. |
 | SESS-07 | The system MUST NOT require long-term persistence of ephemeral runtime state after the session ends.                                      |
 | SESS-08 | Session creation and participant joins MUST be implemented so duplicate join codes cannot be issued concurrently.                         |
+| SESS-09 | Session gameplay MUST use persistent socket connections so clients receive live session updates.                                          |
+| SESS-10 | Socket session updates MUST reflect question progression, participant joins, and submitted answers in real time.                           |
 
 ## 2.4 Question Model
 
-| ID      | Requirement                                                                                                |
-| ------- | ---------------------------------------------------------------------------------------------------------- |
-| QUES-01 | The initial quiz engine MUST support exactly one question type: autocomplete order selection.              |
-| QUES-02 | Each question MUST define a deterministic ordered set of selectable options.                               |
-| QUES-03 | The question model MUST store the canonical correct order as structured data.                              |
-| QUES-04 | The backend MUST reject unsupported question types during validation or persistence.                       |
-| QUES-05 | The question domain model MUST constrain rendering and grading logic so order evaluation is deterministic. |
+| ID      | Requirement                                                                                                                  |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| QUES-01 | The initial quiz engine MUST support exactly one question type: autocomplete order selection (AOS).                          |
+| QUES-02 | IN AOS each question MUST define an array `options` of ordered words with `label` to identify as `HIDE`, `SHOW` and `EXTRA`. |
+| QUES-03 | In AOS The correct order is defined by the consecutive `HIDE` and `SHOW` items inside `options` using `optionOrder`.         |
+| QUES-04 | The backend MUST reject unsupported question types during validation or persistence.                                         |
+| QUES-05 | The question domain model MUST constrain rendering and grading logic so order evaluation is deterministic.                   |
+| QUES-06 | The model MUST contain only `Description`, `options` and `type`                                                              |
 
 ## 2.5 Answer Submission And Scoring
 
@@ -101,6 +140,7 @@
 | ANS-06 | Final scoring MUST be computed centrally by the backend from persisted answer records.                                   |
 | ANS-07 | The backend MUST evaluate the answer by dividing `1` by the number of words in the correct phrase.                       |
 | ANS-08 | Final result values MUST be rounded and presented with one decimal place.                                                |
+| ANS-09 | The backend MUST broadcast each submitted answer to the other session participant in real time.                          |
 
 ## 2.6 Session Progression And Timing
 
@@ -114,16 +154,8 @@
 | FLOW-06 | The backend MUST determine which player answered first for each question.                      |
 | FLOW-07 | The client MUST display a visual alert when the opponent answers faster.                       |
 | FLOW-08 | Session result payloads MUST include timing-based comparison data for multiplayer sessions.    |
-
-## 2.7 Admin Content Management
-
-| ID       | Requirement                                                                                             |
-| -------- | ------------------------------------------------------------------------------------------------------- |
-| ADMIN-01 | The backend MUST expose protected CRUD endpoints for quizzes and questions.                             |
-| ADMIN-02 | Administrative quiz management MUST support create, edit, and save workflows for quizzes and questions. |
-| ADMIN-03 | Quiz data MUST be validated server-side before persistence.                                             |
-| ADMIN-04 | Administrative mutations MUST be auditable at least at the application level.                           |
-| ADMIN-05 | Saved quizzes MUST be treated as publicly available published content once persisted.                   |
+| FLOW-09 | Real-time socket events MUST notify clients when the current question changes.                 |
+| FLOW-10 | Real-time socket events MUST notify clients when an opponent submits an answer.                 |
 
 ## 2.8 SQL Data Model
 
@@ -132,7 +164,7 @@
 | DATA-01 | The backend MUST persist data in a SQL database using relational tables, primary keys, foreign keys, and transactional consistency.                                |
 | DATA-02 | A `User` table MUST store authenticated profile data, Google provider identifiers, roles, and audit timestamps.                                                    |
 | DATA-03 | The `User` table MUST use an internal primary key and unique constraints for provider identifier and email where applicable.                                       |
-| DATA-04 | A `Quiz` table MUST store title, name, topic, difficulty, description, and creation or update timestamps.                                                          |
+| DATA-04 | A `Quiz` table MUST store title, topic, difficulty, description, and creation or update timestamps.                                                                |
 | DATA-05 | The `Quiz` table MUST support indexed lookup by quiz title or name.                                                                                                |
 | DATA-06 | A `Question` table MUST belong to exactly one quiz through a foreign key and MUST store an ordinal position within the quiz.                                       |
 | DATA-07 | The `Question` table MUST enforce uniqueness of question order within the same quiz.                                                                               |
@@ -162,12 +194,20 @@
 | DB-08 | The schema MUST treat quizzes as publicly available published records and MUST preserve historical answer and audit records when related quiz data is updated. |
 | DB-09 | Referential actions for updates and deletes MUST be explicitly defined across related tables.                                                                  |
 
+## 2.10 API Documentation
+
+| ID     | Requirement                                                                                                     |
+| ------ | --------------------------------------------------------------------------------------------------------------- |
+| DOC-01 | The backend MUST expose an OpenAPI 3.0 document describing the public and admin HTTP endpoints.                 |
+| DOC-02 | The OpenAPI document SHOULD include request bodies, response shapes, and authentication requirements by route.  |
+| DOC-03 | The OpenAPI document SHOULD be served by the backend itself so the contract stays aligned with the API runtime. |
+
 ## 3 Configuration
 
-| ID       | Requirement                                                                                                                 |
-| -------- | --------------------------------------------------------------------------------------------------------------------------- |
-| ADMIN-01 | The system MUST use the environment variables to load configurations with separation of concerns and interface segregation. |
-| ADMIN-01 | The system MUST have fallback values or error handling when configuration is incomplete                                     |
+| ID        | Requirement                                                                                                                 |
+| --------- | --------------------------------------------------------------------------------------------------------------------------- |
+| CONFIG-01 | The system MUST use the environment variables to load configurations with separation of concerns and interface segregation. |
+| CONFIG-02 | The system MUST have fallback values or error handling when configuration is incomplete                                     |
 
 ## Initial Tech Stack
 

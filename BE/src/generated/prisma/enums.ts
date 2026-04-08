@@ -33,6 +33,15 @@ export const QuestionType = {
 export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]
 
 
+export const QuestionOptionLabel = {
+  HIDE: 'HIDE',
+  SHOW: 'SHOW',
+  EXTRA: 'EXTRA'
+} as const
+
+export type QuestionOptionLabel = (typeof QuestionOptionLabel)[keyof typeof QuestionOptionLabel]
+
+
 export const QuizSessionMode = {
   SOLO: 'SOLO',
   TWO_PLAYER: 'TWO_PLAYER'

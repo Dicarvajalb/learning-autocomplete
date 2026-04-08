@@ -107,7 +107,6 @@ export type AuthSessionScalarFieldEnum = (typeof AuthSessionScalarFieldEnum)[key
 export const QuizScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  name: 'name',
   topic: 'topic',
   difficulty: 'difficulty',
   description: 'description',
@@ -121,11 +120,8 @@ export type QuizScalarFieldEnum = (typeof QuizScalarFieldEnum)[keyof typeof Quiz
 export const QuestionScalarFieldEnum = {
   id: 'id',
   quizId: 'quizId',
-  prompt: 'prompt',
+  description: 'description',
   type: 'type',
-  questionOrder: 'questionOrder',
-  correctOrder: 'correctOrder',
-  partialScoring: 'partialScoring',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -136,6 +132,7 @@ export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typ
 export const QuestionOptionScalarFieldEnum = {
   id: 'id',
   questionId: 'questionId',
+  word: 'word',
   label: 'label',
   optionOrder: 'optionOrder',
   createdAt: 'createdAt',
@@ -210,13 +207,6 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const NullableJsonNullValueInput = {

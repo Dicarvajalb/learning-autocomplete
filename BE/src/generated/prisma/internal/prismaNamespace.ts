@@ -1146,7 +1146,6 @@ export type AuthSessionScalarFieldEnum = (typeof AuthSessionScalarFieldEnum)[key
 export const QuizScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  name: 'name',
   topic: 'topic',
   difficulty: 'difficulty',
   description: 'description',
@@ -1160,11 +1159,8 @@ export type QuizScalarFieldEnum = (typeof QuizScalarFieldEnum)[keyof typeof Quiz
 export const QuestionScalarFieldEnum = {
   id: 'id',
   quizId: 'quizId',
-  prompt: 'prompt',
+  description: 'description',
   type: 'type',
-  questionOrder: 'questionOrder',
-  correctOrder: 'correctOrder',
-  partialScoring: 'partialScoring',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1175,6 +1171,7 @@ export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typ
 export const QuestionOptionScalarFieldEnum = {
   id: 'id',
   questionId: 'questionId',
+  word: 'word',
   label: 'label',
   optionOrder: 'optionOrder',
   createdAt: 'createdAt',
@@ -1249,13 +1246,6 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const NullableJsonNullValueInput = {
@@ -1368,6 +1358,20 @@ export type ListEnumQuestionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
 
 
 /**
+ * Reference to a field of type 'QuestionOptionLabel'
+ */
+export type EnumQuestionOptionLabelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuestionOptionLabel'>
+    
+
+
+/**
+ * Reference to a field of type 'QuestionOptionLabel[]'
+ */
+export type ListEnumQuestionOptionLabelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuestionOptionLabel[]'>
+    
+
+
+/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -1378,27 +1382,6 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-/**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1445,6 +1428,13 @@ export type ListEnumSessionParticipantSeatFieldRefInput<$PrismaModel> = FieldRef
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'Decimal'
  */
 export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
@@ -1469,6 +1459,20 @@ export type EnumAuditActionFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'AuditAction[]'
  */
 export type ListEnumAuditActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuditAction[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
