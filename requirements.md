@@ -21,28 +21,28 @@
 
 ## Approved Dependencies
 
-| Purpose                                          | Package                    |
-| ------------------------------------------------ | -------------------------- |
-| Shared application language                      | `typescript`               |
-| NestJS framework core APIs                       | `@nestjs/common`           |
-| NestJS application runtime                       | `@nestjs/core`             |
-| HTTP platform adapter                            | `@nestjs/platform-express` |
-| NestJS WebSocket gateway support                 | `@nestjs/websockets`       |
-| Socket.IO platform adapter                       | `@nestjs/platform-socket.io`|
-| Socket.IO realtime transport                     | `socket.io`                |
-| Environment and configuration management         | `@nestjs/config`           |
-| OpenAPI document generation and UI               | `@nestjs/swagger`          |
-| JSON Schema-based request validation             | `ajv`                      |
-| JSON Schema formats support                      | `ajv-formats`              |
-| Shared type contracts and interfaces             | TypeScript interfaces      |
-| NestJS reactive primitives                       | `rxjs`                     |
-| HTTP cookie parsing                              | `cookie-parser`            |
-| Google OAuth token verification                  | `google-auth-library`      |
-| JWT signing and verification                     | `@nestjs/jwt`              |
-| Decorator metadata required by NestJS decorators | `reflect-metadata`         |
-| PostgreSQL driver for Prisma                     | `pg`                       |
-| Prisma schema and migration tooling              | `prisma`                   |
-| Prisma database client                           | `@prisma/client`           |
+| Purpose                                          | Package                      |
+| ------------------------------------------------ | ---------------------------- |
+| Shared application language                      | `typescript`                 |
+| NestJS framework core APIs                       | `@nestjs/common`             |
+| NestJS application runtime                       | `@nestjs/core`               |
+| HTTP platform adapter                            | `@nestjs/platform-express`   |
+| NestJS WebSocket gateway support                 | `@nestjs/websockets`         |
+| Socket.IO platform adapter                       | `@nestjs/platform-socket.io` |
+| Socket.IO realtime transport                     | `socket.io`                  |
+| Environment and configuration management         | `@nestjs/config`             |
+| OpenAPI document generation and UI               | `@nestjs/swagger`            |
+| JSON Schema-based request validation             | `ajv`                        |
+| JSON Schema formats support                      | `ajv-formats`                |
+| Shared type contracts and interfaces             | TypeScript interfaces        |
+| NestJS reactive primitives                       | `rxjs`                       |
+| HTTP cookie parsing                              | `cookie-parser`              |
+| Google OAuth token verification                  | `google-auth-library`        |
+| JWT signing and verification                     | `@nestjs/jwt`                |
+| Decorator metadata required by NestJS decorators | `reflect-metadata`           |
+| PostgreSQL driver for Prisma                     | `pg`                         |
+| Prisma schema and migration tooling              | `prisma`                     |
+| Prisma database client                           | `@prisma/client`             |
 
 ## Approved Frontend Dependencies
 
@@ -115,7 +115,7 @@
 | SESS-07 | The system MUST NOT require long-term persistence of ephemeral runtime state after the session ends.                                      |
 | SESS-08 | Session creation and participant joins MUST be implemented so duplicate join codes cannot be issued concurrently.                         |
 | SESS-09 | Session gameplay MUST use persistent socket connections so clients receive live session updates.                                          |
-| SESS-10 | Socket session updates MUST reflect question progression, participant joins, and submitted answers in real time.                           |
+| SESS-10 | Socket session updates MUST reflect question progression, participant joins, and submitted answers in real time.                          |
 
 ## 2.4 Question Model
 
@@ -130,32 +130,31 @@
 
 ## 2.5 Answer Submission And Scoring
 
-| ID     | Requirement                                                                                                              |
-| ------ | ------------------------------------------------------------------------------------------------------------------------ |
-| ANS-01 | The client MUST render selectable options for each question and submit the selected order as structured positional data. |
-| ANS-02 | The answer model MUST capture the selected order for each participant and question.                                      |
-| ANS-03 | The backend MUST validate the submitted order against the canonical answer order.                                        |
-| ANS-04 | The scoring logic MUST support full credit for a fully correct order.                                                    |
-| ANS-05 | The scoring logic MAY support zero or partial credit for incorrect answers if partial scoring is enabled.                |
-| ANS-06 | Final scoring MUST be computed centrally by the backend from persisted answer records.                                   |
-| ANS-07 | The backend MUST evaluate the answer by dividing `1` by the number of words in the correct phrase.                       |
-| ANS-08 | Final result values MUST be rounded and presented with one decimal place.                                                |
-| ANS-09 | The backend MUST broadcast each submitted answer to the other session participant in real time.                          |
+| ID     | Requirement                                                                                                               |
+| ------ | ------------------------------------------------------------------------------------------------------------------------- |
+| ANS-01 | The client MUST render selectable options for each question and submit the selected order as structured positional data.  |
+| ANS-02 | The answer model MUST capture the selected order for each participant and question.                                       |
+| ANS-03 | The backend MUST validate the submitted order against the canonical answer order.                                         |
+| ANS-04 | The scoring logic MUST support full credit for a fully correct order.                                                     |
+| ANS-05 | The scoring logic MAY support zero or partial credit for incorrect answers if partial scoring is enabled.                 |
+| ANS-06 | The presentation layer must present Final score, and a Feedback section showing one by one the wrong and correct answers. |
+| ANS-07 | The backend MUST broadcast each submitted answer to the other session participant in real time.                           |
 
 ## 2.6 Session Progression And Timing
 
-| ID      | Requirement                                                                                    |
-| ------- | ---------------------------------------------------------------------------------------------- |
-| FLOW-01 | The client MUST present one question at a time during a session.                               |
-| FLOW-02 | The backend MUST preserve question order within each quiz session.                             |
-| FLOW-03 | The system MUST advance to the next question only after the current answer has been submitted. |
-| FLOW-04 | Session progression MUST be controlled server-side using the persisted current question index. |
-| FLOW-05 | The system MUST record answer timestamps for each player using server-side time.               |
-| FLOW-06 | The backend MUST determine which player answered first for each question.                      |
-| FLOW-07 | The client MUST display a visual alert when the opponent answers faster.                       |
-| FLOW-08 | Session result payloads MUST include timing-based comparison data for multiplayer sessions.    |
-| FLOW-09 | Real-time socket events MUST notify clients when the current question changes.                 |
-| FLOW-10 | Real-time socket events MUST notify clients when an opponent submits an answer.                 |
+| ID      | Requirement                                                                                                                                                                                                             |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FLOW-01 | The presentation MUST show one question at a time during a session, showing only Question, Complete the Phrase, Word list and Live Feed                                                                                 |
+| FLOW-02 | The backend MUST preserve question order within each quiz session.                                                                                                                                                      |
+| FLOW-03 | On every question the game mechanic MUST show the incomplete phrase with presenting the `SHOW` words and spaces for the `HIDDEN` words, and list in disorder to fill the spaces between the `HIDDEN` and `EXTRA` WORDS. |
+| FLOW-04 | The system MUST advance to the next question only after the current answer has been submitted, showing if the answer was correct or not before continuing.                                                              |
+| FLOW-05 | Session progression MUST be controlled server-side using the persisted current question index.                                                                                                                          |
+| FLOW-06 | The system MUST record answer timestamps for each player using server-side time.                                                                                                                                        |
+| FLOW-07 | The backend MUST determine which player answered first for each question.                                                                                                                                               |
+| FLOW-08 | The client MUST display a visual alert when the opponent answers faster.                                                                                                                                                |
+| FLOW-09 | Session result payloads MUST include timing-based comparison data for multiplayer sessions.                                                                                                                             |
+| FLOW-10 | Real-time socket events MUST notify clients when the current question changes.                                                                                                                                          |
+| FLOW-11 | Real-time socket events MUST notify clients when an opponent submits an answer.                                                                                                                                         |
 
 ## 2.8 SQL Data Model
 
@@ -201,6 +200,23 @@
 | DOC-01 | The backend MUST expose an OpenAPI 3.0 document describing the public and admin HTTP endpoints.                 |
 | DOC-02 | The OpenAPI document SHOULD include request bodies, response shapes, and authentication requirements by route.  |
 | DOC-03 | The OpenAPI document SHOULD be served by the backend itself so the contract stays aligned with the API runtime. |
+
+## 2.11 Frontend design
+
+| ID     | Requirement                                                                  |
+| ------ | ---------------------------------------------------------------------------- |
+| DOC-01 | The presentation layer MUST be simplistic with minimal colors and background |
+| DOC-02 | The presentation layer MUST center the attention on words and phrases        |
+| DOC-03 | The presentation layer MUST be responsive.                                   |
+
+## 2.12 Presentation requirements - users
+
+| ID     | Requirement                                                                                                   |
+| ------ | ------------------------------------------------------------------------------------------------------------- |
+| DOC-01 | The first path / MUST present only a title and the search quiz component and the Selected question component. |
+| DOC-02 | The Search quiz component MUST allow to select qizzes to feed the Selected question component                 |
+| DOC-03 | The Selected question component question MUST present only options to Play Solo, Play two-player              |
+| DOC-04 | The Selected question component MUST show only name and number of questions                                   |
 
 ## 3 Configuration
 
