@@ -1,3 +1,6 @@
 [submodule "BE"]
 	path = BE
 	url = git@github.com:Dicarvajalb/BE.Leaning-autocomplete.git
+[submodule "FE"]
+	path = FE
+	url = git@github.com:Dicarvajalb/FE.Leaning-autocomplete.git
